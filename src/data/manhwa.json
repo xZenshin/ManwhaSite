@@ -1,0 +1,24 @@
+[
+  {
+    "id": "6f1c1a52-2f43-4a51-9d0e-3c2f6c1d8a01",
+    "title": "Omniscient Reader's Viewpoint",
+    "status": "reading",
+    "rating": 9,
+    "chaptersRead": 183,
+    "totalChapters": null,
+    "coverUrl": null,
+    "notes": "Example entry — edit or delete me. Write a short recap of where the story is, so it's easy to pick back up.",
+    "updatedAt": "2026-10-23T11:40:49.537Z"
+  },
+  {
+    "id": "0b8e4d77-91a6-4c3b-8f2a-7d5e9b4c2a02",
+    "title": "Solo Leveling",
+    "status": "completed",
+    "rating": 8,
+    "chaptersRead": 179,
+    "totalChapters": 179,
+    "coverUrl": null,
+    "notes": "",
+    "updatedAt": "2026-10-20T12:00:00.000Z"
+  }
+]

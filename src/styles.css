@@ -1,0 +1,776 @@
+/*
+ * Manhwabang (만화방) — a comic-rental shop shelf.
+ * Dancheong teal screentone backdrop, paper panels with ink borders,
+ * and ratings pressed on as red dojang (name seal) stamps.
+ */
+
+:root {
+  /* Backdrop: dancheong teal */
+  --bg: #1d5f5a;
+  --bg-deep: #123f3c;
+  --on-bg: #f3f4ee;
+  --on-bg-muted: #b8d4ce;
+
+  /* Panels */
+  --paper: #f3f4ee;
+  --paper-shade: #e2e6db;
+  --rule: #c9d6e0;
+  --ink: #1a2238;
+  --muted: #586179;
+
+  /* Accents */
+  --seal: #c4321d;
+  --seal-deep: #9e2614;
+  --marker: #f5c542;
+  --marker-deep: #e0a91c;
+  --jade: #2a8a5f;
+  --indigo: #3d5bb5;
+  --slate: #8a909c;
+
+  --font-display: 'Black Han Sans', 'Arial Black', sans-serif;
+  --font-body: 'Gowun Dodum', 'Trebuchet MS', sans-serif;
+  --font-hand: 'Gaegu', 'Comic Sans MS', cursive;
+
+  --border: 3px solid var(--ink);
+  --shadow-offset: 6px;
+
+  color-scheme: light;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.55;
+  background-color: var(--bg);
+  /* Light from above, screentone dots, darker toward the floor */
+  background-image:
+    radial-gradient(ellipse 70% 45% at 30% -5%, rgb(255 255 255 / 0.2), transparent 70%),
+    radial-gradient(circle, rgb(6 30 28 / 0.32) 1.3px, transparent 1.7px),
+    linear-gradient(180deg, var(--bg) 0%, var(--bg-deep) 100%);
+  background-size: auto, 11px 11px, auto;
+  background-attachment: fixed;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 3px solid var(--marker);
+  outline-offset: 2px;
+}
+
+code {
+  padding: 0.05em 0.35em;
+  border-radius: 3px;
+  background: rgb(0 0 0 / 0.2);
+  color: var(--on-bg);
+  font-size: 0.9em;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Status colour: used for panel shadows, tabs and form chips.
+   --status-text is the text colour to use on top of --status. */
+[data-status] { --status-text: var(--paper); }
+[data-status='reading'] { --status: var(--seal); }
+[data-status='caught-up'] { --status: var(--marker); --status-text: var(--ink); }
+[data-status='completed'] { --status: var(--jade); }
+[data-status='plan-to-read'] { --status: var(--indigo); }
+[data-status='dropped'] { --status: var(--slate); --status-text: var(--ink); }
+[data-status='all'] { --status: var(--ink); }
+
+/* ---------- Layout ---------- */
+
+.page {
+  max-width: 74rem;
+  margin: 0 auto;
+  padding: 2.5rem 1rem 4rem;
+}
+
+.masthead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.25rem 2rem;
+  margin-bottom: 2rem;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.3em;
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(2.25rem, 7vw, 3.75rem);
+  line-height: 1;
+  color: var(--on-bg);
+  text-shadow: 4px 4px 0 var(--ink);
+}
+
+/* Vertical shop signboard: 만화책장, "manhwa bookshelf" */
+.brand-hangul {
+  writing-mode: vertical-rl;
+  padding: 0.3em 0.2em;
+  border: 3px solid var(--ink);
+  border-radius: 3px;
+  background: var(--seal);
+  color: var(--paper);
+  font-size: max(0.26em, 0.75rem);
+  letter-spacing: 0.08em;
+  text-shadow: none;
+  box-shadow: 3px 3px 0 var(--ink);
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.search,
+.sort {
+  height: 2.75rem;
+  padding: 0 0.85rem;
+  background: var(--paper);
+  border: var(--border);
+  border-radius: 4px;
+  box-shadow: 3px 3px 0 var(--ink);
+}
+
+.search {
+  width: 15rem;
+  max-width: 100%;
+}
+
+.search::placeholder {
+  color: var(--muted);
+}
+
+/* ---------- Tabs: index tabs along the top of the shelf ---------- */
+
+.tabs {
+  display: flex;
+  gap: 0.4rem;
+  overflow-x: auto;
+  padding: 0.5rem 0.25rem 0;
+  margin-bottom: 1.75rem;
+  border-bottom: var(--border);
+}
+
+.tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.55rem 1rem 0.5rem;
+  border: var(--border);
+  border-bottom: 0;
+  border-radius: 8px 8px 0 0;
+  background: #b9cdc6;
+  color: var(--ink);
+  white-space: nowrap;
+  cursor: pointer;
+  transform: translateY(4px);
+  transition: transform 120ms ease, background-color 120ms ease;
+}
+
+.tab:hover {
+  background: #d3e0da;
+  transform: translateY(2px);
+}
+
+.tab[aria-pressed='true'] {
+  background: var(--paper);
+  box-shadow: inset 0 5px 0 var(--status);
+  transform: none;
+}
+
+.tab-count {
+  min-width: 1.6rem;
+  padding: 0.05rem 0.45rem;
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  text-align: center;
+}
+
+/* ---------- Entries: comic panels ---------- */
+
+.entries {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 31rem), 1fr));
+  gap: 1.75rem 1.5rem;
+}
+
+.entry {
+  display: grid;
+  grid-template-columns: 8rem 1fr;
+  gap: 1.4rem;
+  padding: 1.1rem;
+  background: var(--paper);
+  border: var(--border);
+  border-radius: 4px;
+  box-shadow: var(--shadow-offset) var(--shadow-offset) 0 var(--status);
+  animation: panel-in 520ms cubic-bezier(0.2, 0.9, 0.25, 1.15) both;
+  animation-delay: calc(var(--i, 0) * 70ms);
+}
+
+.cover-frame {
+  position: relative;
+  align-self: start;
+}
+
+.cover {
+  display: block;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  border: 2px solid var(--ink);
+  border-radius: 2px;
+  background: var(--paper-shade);
+}
+
+.cover-placeholder {
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(circle, rgb(0 0 0 / 0.18) 1.2px, transparent 1.6px) 0 0 / 7px 7px,
+    linear-gradient(160deg, hsl(var(--hue) 50% 58%), hsl(calc(var(--hue) + 35) 55% 32%));
+  font-family: var(--font-display);
+  font-size: 2rem;
+  color: var(--paper);
+  text-shadow: 2px 2px 0 var(--ink);
+}
+
+/* The rating, pressed on like a red name seal */
+.stamp {
+  position: absolute;
+  right: -0.85rem;
+  bottom: -0.85rem;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  width: 3.4rem;
+  height: 3.4rem;
+  border: 3px solid var(--seal);
+  border-radius: 50%;
+  outline: 1.5px solid var(--seal);
+  outline-offset: -7px;
+  background: rgb(243 244 238 / 0.92);
+  color: var(--seal);
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  line-height: 1;
+  transform: rotate(-12deg);
+  animation: stamp-down 380ms cubic-bezier(0.3, 1.6, 0.5, 1) both;
+  animation-delay: calc(var(--i, 0) * 70ms + 420ms);
+}
+
+.stamp-scale {
+  font-size: 0.55rem;
+  letter-spacing: 0.05em;
+}
+
+.stamp-empty {
+  border-style: dashed;
+  border-color: var(--slate);
+  outline-color: transparent;
+  color: var(--slate);
+}
+
+.entry-body {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.entry-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1.35rem;
+  line-height: 1.15;
+  overflow-wrap: anywhere;
+}
+
+/* The chapter you're on, highlighted like a marker swipe */
+.chapter {
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  margin: 0.6rem 0 0.5rem;
+}
+
+.chapter-label {
+  color: var(--muted);
+}
+
+.chapter-number {
+  padding: 0 0.15em;
+  font-family: var(--font-display);
+  font-size: 2.6rem;
+  line-height: 1;
+  background: linear-gradient(transparent 52%, var(--marker) 52%, var(--marker) 92%, transparent 92%);
+}
+
+.chapter-total {
+  color: var(--muted);
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+}
+
+.progress {
+  height: 0.7rem;
+  margin-bottom: 0.9rem;
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+  background: var(--paper-shade);
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: repeating-linear-gradient(-45deg, var(--marker) 0 6px, var(--marker-deep) 6px 12px);
+  border-right: 2px solid var(--ink);
+}
+
+/* Notes: handwritten on ruled paper */
+.notes {
+  margin: 0.15rem 0 0.9rem;
+}
+
+.notes-text {
+  --line: 1.6rem;
+  margin: 0;
+  max-width: 62ch;
+  padding-left: 0.75rem;
+  border-left: 2px solid rgb(226 65 43 / 0.45);
+  font-family: var(--font-hand);
+  font-size: 1.2rem;
+  line-height: var(--line);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  background: repeating-linear-gradient(
+    transparent 0,
+    transparent calc(var(--line) - 1px),
+    var(--rule) calc(var(--line) - 1px),
+    var(--rule) var(--line)
+  );
+}
+
+.notes-text.clamped {
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.notes .link-button {
+  margin-top: 0.25rem;
+}
+
+.notes-empty {
+  margin: 0.15rem 0 0.9rem;
+  color: var(--muted);
+  font-family: var(--font-hand);
+  font-size: 1.15rem;
+}
+
+.entry-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem 1rem;
+  margin-top: auto;
+  padding-top: 0.75rem;
+  border-top: 2px dashed var(--paper-shade);
+}
+
+.meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+
+.status-dot {
+  width: 0.65rem;
+  height: 0.65rem;
+  border: 2px solid var(--ink);
+  border-radius: 50%;
+  background: var(--status);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+/* ---------- Buttons ---------- */
+
+.button {
+  height: 2.75rem;
+  padding: 0 1.1rem;
+  border: var(--border);
+  border-radius: 4px;
+  background: var(--seal);
+  color: var(--paper);
+  font-family: var(--font-display);
+  font-size: 1rem;
+  letter-spacing: 0.01em;
+  box-shadow: 3px 3px 0 var(--ink);
+  cursor: pointer;
+  transition: transform 90ms ease, box-shadow 90ms ease;
+}
+
+.button:hover:not(:disabled) {
+  background: var(--seal-deep);
+}
+
+.button:active:not(:disabled) {
+  transform: translate(3px, 3px);
+  box-shadow: 0 0 0 var(--ink);
+}
+
+.button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.button-small {
+  height: 2.1rem;
+  padding: 0 0.75rem;
+  border-width: 2px;
+  font-size: 0.875rem;
+  box-shadow: 2px 2px 0 var(--ink);
+}
+
+.button-small:active:not(:disabled) {
+  transform: translate(2px, 2px);
+}
+
+.button-ghost {
+  background: var(--paper);
+  color: var(--ink);
+}
+
+.button-ghost:hover:not(:disabled) {
+  background: var(--paper-shade);
+}
+
+.button-danger {
+  color: var(--seal-deep);
+}
+
+.link-button {
+  padding: 0;
+  background: none;
+  border: 0;
+  color: var(--seal-deep);
+  font-size: 0.9rem;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.link-button:disabled {
+  color: var(--muted);
+  text-decoration: none;
+  cursor: default;
+}
+
+/* ---------- Empty state, banners ---------- */
+
+/* An empty panel waiting to be drawn in */
+.empty {
+  display: grid;
+  justify-items: center;
+  gap: 1.25rem;
+  padding: 4rem 1.5rem;
+  border: 3px dashed rgb(243 244 238 / 0.5);
+  border-radius: 4px;
+  color: var(--on-bg);
+  text-align: center;
+}
+
+.empty p {
+  margin: 0;
+  font-family: var(--font-hand);
+  font-size: 1.6rem;
+}
+
+.banner {
+  margin: 0 0 1.5rem;
+  padding: 0.8rem 1rem;
+  border: var(--border);
+  border-radius: 4px;
+  background: var(--marker);
+  box-shadow: 4px 4px 0 var(--seal);
+  white-space: pre-wrap;
+}
+
+.dev-note {
+  margin-top: 3.5rem;
+  color: var(--on-bg-muted);
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+/* ---------- Form dialog ---------- */
+
+.dialog {
+  width: min(37rem, calc(100vw - 2rem));
+  max-height: calc(100dvh - 2rem);
+  padding: 0;
+  background: var(--paper);
+  color: var(--ink);
+  border: var(--border);
+  border-radius: 4px;
+  box-shadow: 10px 10px 0 var(--seal);
+}
+
+.dialog[open] {
+  animation: panel-in 300ms cubic-bezier(0.2, 0.9, 0.25, 1.15);
+}
+
+.dialog::backdrop {
+  background:
+    radial-gradient(circle, rgb(0 0 0 / 0.25) 1.3px, transparent 1.7px) 0 0 / 9px 9px,
+    rgb(18 63 60 / 0.75);
+}
+
+.form {
+  display: grid;
+  gap: 1.2rem;
+  padding: 1.6rem;
+}
+
+.form-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1.6rem;
+  line-height: 1.15;
+  overflow-wrap: anywhere;
+}
+
+.field {
+  display: grid;
+  gap: 0.35rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+
+.field > span,
+.field > legend {
+  padding: 0;
+  margin-bottom: 0.35rem;
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+}
+
+.field input:not([type='radio']),
+.field textarea {
+  width: 100%;
+  padding: 0.6rem 0.8rem;
+  background: #fff;
+  border: 2px solid var(--ink);
+  border-radius: 4px;
+}
+
+.field input::placeholder,
+.field textarea::placeholder {
+  color: var(--muted);
+}
+
+/* Notes are written in the same hand they're shown in */
+.field textarea {
+  resize: vertical;
+  font-family: var(--font-hand);
+  font-size: 1.2rem;
+  line-height: 1.45;
+}
+
+.field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.segmented {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.segmented label {
+  position: relative;
+}
+
+.segmented input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+}
+
+.segmented span {
+  display: inline-block;
+  padding: 0.45rem 0.9rem;
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+  background: #fff;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.segmented input:checked + span {
+  background: var(--status);
+  color: var(--status-text);
+  box-shadow: 2px 2px 0 var(--ink);
+}
+
+.segmented input:focus-visible + span {
+  outline: 3px solid var(--marker);
+  outline-offset: 2px;
+}
+
+.rating-input {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.rating-pip {
+  width: 2.35rem;
+  height: 2.35rem;
+  border: 2px solid var(--ink);
+  border-radius: 50%;
+  background: #fff;
+  font-family: var(--font-display);
+  cursor: pointer;
+  transition: transform 90ms ease;
+}
+
+.rating-pip:hover {
+  transform: rotate(-8deg) scale(1.08);
+}
+
+.rating-pip[data-filled='true'] {
+  background: var(--seal);
+  border-color: var(--seal-deep);
+  color: var(--paper);
+}
+
+.rating-input .link-button {
+  margin-left: 0.6rem;
+}
+
+.form-errors {
+  margin: 0;
+  padding: 0.8rem 1rem 0.8rem 2rem;
+  border: 2px solid var(--seal);
+  border-radius: 4px;
+  background: rgb(226 65 43 / 0.08);
+  color: var(--seal-deep);
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.6rem;
+}
+
+/* ---------- Motion ---------- */
+
+@keyframes panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px) rotate(-1.2deg);
+  }
+}
+
+@keyframes stamp-down {
+  from {
+    opacity: 0;
+    transform: scale(1.9) rotate(-30deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* ---------- Small screens ---------- */
+
+@media (max-width: 32rem) {
+  .entry {
+    grid-template-columns: 5.75rem 1fr;
+    gap: 1.1rem;
+    padding: 0.9rem;
+  }
+
+  .stamp {
+    width: 2.9rem;
+    height: 2.9rem;
+    right: -0.6rem;
+    bottom: -0.6rem;
+    font-size: 1.15rem;
+  }
+
+  .chapter-number {
+    font-size: 2.1rem;
+  }
+
+  .toolbar {
+    width: 100%;
+  }
+
+  .search {
+    flex: 1;
+    width: auto;
+  }
+
+  .field-row {
+    grid-template-columns: 1fr;
+  }
+}
