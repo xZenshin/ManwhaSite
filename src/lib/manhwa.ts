@@ -68,6 +68,11 @@ export function validateList(data: unknown): string[] {
   return errors;
 }
 
+/** The on-disk format of manhwa.json: 2-space indent and a trailing newline, for clean git diffs. */
+export function serialize(list: Manhwa[]): string {
+  return JSON.stringify(list, null, 2) + '\n';
+}
+
 export function newEntry(): Manhwa {
   return {
     id: crypto.randomUUID(),
