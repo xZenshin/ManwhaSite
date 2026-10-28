@@ -15,6 +15,10 @@
     .\scripts\add-manhwa.ps1 -Title "Solo Leveling" -Status completed -Chapters 179 -Total 179 -Rating 9
 
 .EXAMPLE
+    .\scripts\add-manhwa.ps1 -Title "Tower of God" -Chapters ?
+    Use ? for chapters read when you don't remember where you are.
+
+.EXAMPLE
     .\scripts\add-manhwa.ps1 -Title "Nano Machine" -Status plan-to-read -NoPush
     Only updates manhwa.json; doesn't commit or push.
 #>
@@ -25,8 +29,9 @@ param(
     [ValidateSet('reading', 'caught-up', 'completed', 'plan-to-read', 'dropped')]
     [string]$Status = 'reading',
 
-    [ValidateRange(0, 100000)]
-    [int]$Chapters = 0,
+    # A whole number, or ? if you don't remember
+    [ValidatePattern('^(\d{1,6}|\?)$')]
+    [string]$Chapters = '0',
 
     # Leave out for ongoing series
     [Nullable[int]]$Total = $null,
@@ -58,14 +63,17 @@ function Stop-WithError([string]$Message) {
     exit 1
 }
 
-# Asks until the answer is empty (returns $null when allowed) or a whole number in range.
-function Read-Number([string]$Prompt, [int]$Min, [int]$Max, [switch]$AllowEmpty) {
+# Asks until the answer is empty (returns $null when allowed), ? (returns '?' when allowed)
+# or a whole number in range.
+function Read-Number([string]$Prompt, [int]$Min, [int]$Max, [switch]$AllowEmpty, [switch]$AllowUnknown) {
     while ($true) {
         $answer = (Read-Host $Prompt).Trim()
         if ($answer -eq '' -and $AllowEmpty) { return $null }
+        if ($answer -eq '?' -and $AllowUnknown) { return '?' }
         $number = 0
         if ([int]::TryParse($answer, [ref]$number) -and $number -ge $Min -and $number -le $Max) { return $number }
-        Write-Host "  Enter a whole number from $Min to $Max$(if ($AllowEmpty) { ', or leave it empty' })." -ForegroundColor Yellow
+        $alternatives = @(if ($AllowUnknown) { '?' }; if ($AllowEmpty) { 'leave it empty' })
+        Write-Host "  Enter a whole number from $Min to $Max$(if ($alternatives) { ', ' + ($alternatives -join ', or ') })." -ForegroundColor Yellow
     }
 }
 
@@ -94,8 +102,8 @@ try {
         $choice = Read-Number 'Choose 1-5 (Enter = Reading)' 1 $keys.Count -AllowEmpty
         $Status = if ($choice) { $keys[$choice - 1] } else { 'reading' }
 
-        $Chapters = Read-Number 'Chapters read (Enter = 0)' 0 100000 -AllowEmpty
-        if ($null -eq $Chapters) { $Chapters = 0 }
+        $Chapters = Read-Number "Chapters read (Enter = 0, ? = don't remember)" 0 100000 -AllowEmpty -AllowUnknown
+        if ($null -eq $Chapters) { $Chapters = '0' }
         $Total = Read-Number 'Total chapters (Enter = ongoing/unknown)' 0 100000 -AllowEmpty
         $Rating = Read-Number 'Rating 0-10 (Enter = unrated)' 0 10 -AllowEmpty
         $Notes = (Read-Host 'Where you left off (Enter = none)').Trim()
@@ -104,12 +112,14 @@ try {
 
     if ($null -ne $Rating -and ($Rating -lt 0 -or $Rating -gt 10)) { Stop-WithError 'Rating must be from 0 to 10.' }
     if ($null -ne $Total -and $Total -lt 0) { Stop-WithError 'Total chapters must be 0 or more.' }
+    # $null = don't remember
+    $chaptersRead = if ("$Chapters" -eq '?') { $null } else { [int]$Chapters }
 
     $entry = [ordered]@{
         title         = $Title.Trim()
         status        = $Status
         rating        = $Rating
-        chaptersRead  = $Chapters
+        chaptersRead  = $chaptersRead
         totalChapters = $Total
         coverUrl      = if ($Cover.Trim()) { $Cover.Trim() } else { $null }
         notes         = $Notes.Trim()

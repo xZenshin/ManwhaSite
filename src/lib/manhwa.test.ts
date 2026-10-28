@@ -29,6 +29,10 @@ describe('sortList', () => {
     expect(titles(sortList(list, 'rating'))).toEqual(['Solo Leveling', 'Tower of God', 'Omniscient Reader']));
   it('sorts by chapters read', () =>
     expect(titles(sortList(list, 'chapters'))).toEqual(['Tower of God', 'Solo Leveling', 'Omniscient Reader']));
+  it('sorts unknown chapters last', () => {
+    const d = make({ title: 'Unknown', chaptersRead: null });
+    expect(titles(sortList([d, ...list], 'chapters'))).toEqual(['Tower of God', 'Solo Leveling', 'Omniscient Reader', 'Unknown']);
+  });
   it('does not mutate the input', () => {
     const copy = [...list];
     sortList(list, 'title');
@@ -46,6 +50,10 @@ describe('validate', () => {
   it('rejects negative or fractional chapters', () => {
     expect(validate({ ...a, chaptersRead: -1 })).toHaveLength(1);
     expect(validate({ ...a, chaptersRead: 1.5 })).toHaveLength(1);
+  });
+  it('accepts unknown chapters read', () => {
+    expect(validate({ ...a, chaptersRead: null })).toEqual([]);
+    expect(validate({ ...a, chaptersRead: null, totalChapters: 5 })).toEqual([]);
   });
   it('rejects chaptersRead > totalChapters', () =>
     expect(validate({ ...a, chaptersRead: 10, totalChapters: 5 })).toContain(

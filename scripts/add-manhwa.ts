@@ -38,6 +38,7 @@ if (existing) fail(`"${existing.title}" is already on the shelf (${STATUS_LABEL[
 
 await writeFile(DATA_FILE, serialize([...(list as Manhwa[]), entry]), 'utf8');
 
-const chapters = entry.totalChapters === null ? `ch. ${entry.chaptersRead}` : `ch. ${entry.chaptersRead}/${entry.totalChapters}`;
+const read = entry.chaptersRead ?? '?';
+const chapters = entry.totalChapters === null ? `ch. ${read}` : `ch. ${read}/${entry.totalChapters}`;
 const rating = entry.rating === null ? 'unrated' : `${entry.rating}/10`;
 console.log(`Added "${entry.title}" to ${STATUS_LABEL[entry.status]} (${chapters}, ${rating}).`);

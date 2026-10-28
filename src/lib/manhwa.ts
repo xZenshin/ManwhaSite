@@ -29,7 +29,8 @@ export function sortList(list: Manhwa[], key: SortKey): Manhwa[] {
       // Unrated entries go last
       return sorted.sort((a, b) => (b.rating ?? -1) - (a.rating ?? -1) || byTitle(a, b));
     case 'chapters':
-      return sorted.sort((a, b) => b.chaptersRead - a.chaptersRead || byTitle(a, b));
+      // Unknown chapter counts go last
+      return sorted.sort((a, b) => (b.chaptersRead ?? -1) - (a.chaptersRead ?? -1) || byTitle(a, b));
     case 'updated':
       return sorted.sort((a, b) => b.updatedAt.localeCompare(a.updatedAt) || byTitle(a, b));
   }
@@ -45,7 +46,8 @@ export function validate(m: Partial<Manhwa>): string[] {
   if (!STATUSES.some((s) => s.value === m.status)) errors.push('Status is invalid.');
   if (m.rating !== null && !(typeof m.rating === 'number' && m.rating >= 0 && m.rating <= 10))
     errors.push('Rating must be between 0 and 10.');
-  if (!isNonNegInt(m.chaptersRead)) errors.push('Chapters read must be a whole number ≥ 0.');
+  if (m.chaptersRead !== null && !isNonNegInt(m.chaptersRead))
+    errors.push("Chapters read must be a whole number ≥ 0, or ? if you don't remember.");
   if (m.totalChapters !== null && !isNonNegInt(m.totalChapters))
     errors.push('Total chapters must be a whole number ≥ 0.');
   if (isNonNegInt(m.chaptersRead) && isNonNegInt(m.totalChapters) && m.chaptersRead > m.totalChapters)

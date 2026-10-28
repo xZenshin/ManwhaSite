@@ -47,6 +47,7 @@ Or pass the fields directly:
 ```
 
 - `-Status` is one of `reading`, `caught-up`, `completed`, `plan-to-read` or `dropped`. It defaults to `reading`.
+- Use `-Chapters ?` if you don't remember the chapter. This also works in the site's edit form.
 - Leave out `-Total` for ongoing series, and `-Rating` for unrated ones.
 - Add `-NoPush` to only update the file.
 
