@@ -1,7 +1,8 @@
 import { writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import type { Plugin } from 'vite';
-import { validateList } from '../src/lib/manhwa.ts';
+import { serialize, validateList } from '../src/lib/manhwa.ts';
+import type { Manhwa } from '../src/types.ts';
 
 export const SAVE_ENDPOINT = '/__manhwa';
 const DATA_FILE = fileURLToPath(new URL('../src/data/manhwa.json', import.meta.url));
@@ -32,7 +33,7 @@ export function manhwaDataWriter(): Plugin {
           const errors = validateList(data);
           if (errors.length) return reply(400, { errors });
 
-          await writeFile(DATA_FILE, JSON.stringify(data, null, 2) + '\n', 'utf8');
+          await writeFile(DATA_FILE, serialize(data as Manhwa[]), 'utf8');
           reply(200, { ok: true });
         } catch (err) {
           reply(500, { errors: [String(err)] });

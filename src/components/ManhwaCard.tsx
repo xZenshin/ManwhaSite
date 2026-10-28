@@ -27,8 +27,10 @@ function timeAgo(iso: string): string {
 export function ManhwaCard({ manhwa: m, index, canEdit, onEdit, onAddChapter, onDelete }: Props) {
   const [expanded, setExpanded] = useState(false);
   const isLong = m.notes.length > LONG_NOTES;
-  const progress = m.totalChapters ? Math.min(100, (m.chaptersRead / m.totalChapters) * 100) : null;
-  const atEnd = m.totalChapters !== null && m.chaptersRead >= m.totalChapters;
+  const unknownChapter = m.chaptersRead === null;
+  const progress =
+    m.totalChapters && m.chaptersRead !== null ? Math.min(100, (m.chaptersRead / m.totalChapters) * 100) : null;
+  const atEnd = m.totalChapters !== null && m.chaptersRead !== null && m.chaptersRead >= m.totalChapters;
 
   return (
     <article className="entry" data-status={m.status} style={{ '--i': Math.min(index, 12) } as React.CSSProperties}>
@@ -53,7 +55,14 @@ export function ManhwaCard({ manhwa: m, index, canEdit, onEdit, onAddChapter, on
 
         <p className="chapter">
           <span className="chapter-label">Ch.</span>
-          <span className="chapter-number">{m.chaptersRead}</span>
+          {unknownChapter ? (
+            <span className="chapter-number" title="Don't remember the chapter">
+              <span aria-hidden>?</span>
+              <span className="sr-only">unknown</span>
+            </span>
+          ) : (
+            <span className="chapter-number">{m.chaptersRead}</span>
+          )}
           {m.totalChapters !== null && <span className="chapter-total">/ {m.totalChapters}</span>}
         </p>
         {progress !== null && (
@@ -63,7 +72,7 @@ export function ManhwaCard({ manhwa: m, index, canEdit, onEdit, onAddChapter, on
             aria-label="Chapters read"
             aria-valuemin={0}
             aria-valuemax={m.totalChapters!}
-            aria-valuenow={m.chaptersRead}
+            aria-valuenow={m.chaptersRead!}
           >
             <div className="progress-fill" style={{ width: `${progress}%` }} />
           </div>
@@ -79,7 +88,7 @@ export function ManhwaCard({ manhwa: m, index, canEdit, onEdit, onAddChapter, on
             )}
           </div>
         ) : (
-          <p className="notes-empty">No notes on where you left off.</p>
+          <p className="notes-empty"></p>
         )}
 
         <footer className="entry-foot">
@@ -89,7 +98,13 @@ export function ManhwaCard({ manhwa: m, index, canEdit, onEdit, onAddChapter, on
           </span>
           {canEdit && (
             <span className="actions">
-              <button type="button" className="button button-small" onClick={onAddChapter} disabled={atEnd}>
+              <button
+                type="button"
+                className="button button-small"
+                onClick={onAddChapter}
+                disabled={atEnd || unknownChapter}
+                title={unknownChapter ? 'Set the chapter with Edit first' : undefined}
+              >
                 +1 chapter
               </button>
               <button type="button" className="button button-small button-ghost" onClick={onEdit}>

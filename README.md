@@ -25,13 +25,45 @@ git push
 
 The deployed site is read-only and shows no edit controls. You can also edit `manhwa.json` by hand.
 
-## Deploying to Cloudflare Pages
+### Quick add from PowerShell
 
-1. In the Cloudflare dashboard, go to **Workers & Pages → Create → Pages → Connect to Git** and pick this repo.
-2. Set the framework preset to **None** (or Vite).
-3. Set the build command to `npm run build`.
-4. Set the build output directory to `dist`.
-5. The Node version comes from `.nvmrc`.
+[`scripts/add-manhwa.ps1`](scripts/add-manhwa.ps1) adds a manhwa without starting the dev server. It does four things:
+
+1. Pulls the latest `main`.
+2. Adds the entry to `manhwa.json`.
+3. Commits that file.
+4. Pushes, so Cloudflare deploys the change.
+
+Ask for each field:
+
+```powershell
+.\scripts\add-manhwa.ps1
+```
+
+Or pass the fields directly:
+
+```powershell
+.\scripts\add-manhwa.ps1 -Title "Solo Leveling" -Status completed -Chapters 179 -Total 179 -Rating 9 -Notes "Finished!"
+```
+
+- `-Status` is one of `reading`, `caught-up`, `completed`, `plan-to-read` or `dropped`. It defaults to `reading`.
+- Use `-Chapters ?` if you don't remember the chapter. This also works in the site's edit form.
+- Leave out `-Total` for ongoing series, and `-Rating` for unrated ones.
+- Add `-NoPush` to only update the file.
+
+The script must be run from `main`. It refuses titles that are already on the shelf. See `Get-Help .\scripts\add-manhwa.ps1 -Examples` for more.
+
+## Deploying to Cloudflare
+
+The site deploys as static files only (no Worker code), configured in [`wrangler.jsonc`](wrangler.jsonc). In the Cloudflare dashboard, go to **Workers & Pages → Create → Import a repository**, pick this repo and set:
+
+| Setting                            | Value                         |
+| ---------------------------------- | ----------------------------- |
+| Build command                      | `npm run build`               |
+| Deploy command                     | `npx wrangler deploy`         |
+| Non-production branch deploy command | `npx wrangler versions upload` |
+
+The Worker name in the dashboard must match `name` in `wrangler.jsonc`. The Node version comes from `.nvmrc`.
 
 Every push to `main` triggers a new deploy. The site is public to anyone with the URL, notes included.
 

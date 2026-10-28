@@ -7,7 +7,8 @@ export interface Manhwa {
   status: Status;
   /** 0–10, null = unrated */
   rating: number | null;
-  chaptersRead: number;
+  /** null = don't remember */
+  chaptersRead: number | null;
   /** null = ongoing / unknown */
   totalChapters: number | null;
   coverUrl: string | null;

@@ -1,0 +1,9 @@
+// Cloudflare deploy config: serves the Vite build output as static files (no Worker code).
+{
+  // Must match the Worker's name in the Cloudflare dashboard
+  "name": "manwhasite",
+  "compatibility_date": "2025-10-01",
+  "assets": {
+    "directory": "./dist"
+  }
+}

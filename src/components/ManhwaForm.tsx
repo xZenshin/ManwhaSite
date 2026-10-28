@@ -12,13 +12,15 @@ interface Props {
 
 /** Number inputs are kept as strings so the fields can be empty while typing. */
 const toNumber = (s: string): number | null => (s.trim() === '' ? null : Number(s));
+/** "?" means the chapter isn't remembered; empty means 0. */
+const toChapter = (s: string): number | null => (s.trim() === '?' ? null : (toNumber(s) ?? 0));
 
 export function ManhwaForm({ initial, isNew, onSave, onClose }: Props) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const [title, setTitle] = useState(initial.title);
   const [status, setStatus] = useState<Status>(initial.status);
   const [rating, setRating] = useState(initial.rating);
-  const [chaptersRead, setChaptersRead] = useState(String(initial.chaptersRead));
+  const [chaptersRead, setChaptersRead] = useState(initial.chaptersRead?.toString() ?? '?');
   const [totalChapters, setTotalChapters] = useState(initial.totalChapters?.toString() ?? '');
   const [coverUrl, setCoverUrl] = useState(initial.coverUrl ?? '');
   const [notes, setNotes] = useState(initial.notes);
@@ -35,7 +37,7 @@ export function ManhwaForm({ initial, isNew, onSave, onClose }: Props) {
       title: title.trim(),
       status,
       rating,
-      chaptersRead: toNumber(chaptersRead) ?? 0,
+      chaptersRead: toChapter(chaptersRead),
       totalChapters: toNumber(totalChapters),
       coverUrl: coverUrl.trim() || null,
       notes: notes.trim(),
@@ -77,10 +79,10 @@ export function ManhwaForm({ initial, isNew, onSave, onClose }: Props) {
         <div className="field-row">
           <label className="field">
             <span>Chapters read</span>
+            {/* Text, not number, so "?" can be typed */}
             <input
-              type="number"
-              inputMode="numeric"
-              min={0}
+              type="text"
+              placeholder="? if unsure"
               value={chaptersRead}
               onChange={(e) => setChaptersRead(e.target.value)}
             />

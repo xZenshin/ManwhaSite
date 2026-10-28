@@ -44,6 +44,7 @@ export default function App() {
   }
 
   function addChapter(entry: Manhwa) {
+    if (entry.chaptersRead === null) return;
     upsert({ ...entry, chaptersRead: entry.chaptersRead + 1, updatedAt: new Date().toISOString() });
   }
 
