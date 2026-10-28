@@ -9,6 +9,9 @@ A personal tracker for manhwa, sorted into Reading, Caught Up, Completed, Plan t
 
 It is a static React site with no backend. The data lives in [`src/data/manhwa.json`](src/data/manhwa.json) and is baked into the build.
 
+Live site is currently hosted on Cloudflare here ```https://manwhasite.askoularsen.workers.dev/```
+
+
 ## Editing the list
 
 ```sh
@@ -53,25 +56,4 @@ Or pass the fields directly:
 
 The script must be run from `main`. It refuses titles that are already on the shelf. See `Get-Help .\scripts\add-manhwa.ps1 -Examples` for more.
 
-## Deploying to Cloudflare
 
-The site deploys as static files only (no Worker code), configured in [`wrangler.jsonc`](wrangler.jsonc). In the Cloudflare dashboard, go to **Workers & Pages → Create → Import a repository**, pick this repo and set:
-
-| Setting                            | Value                         |
-| ---------------------------------- | ----------------------------- |
-| Build command                      | `npm run build`               |
-| Deploy command                     | `npx wrangler deploy`         |
-| Non-production branch deploy command | `npx wrangler versions upload` |
-
-The Worker name in the dashboard must match `name` in `wrangler.jsonc`. The Node version comes from `.nvmrc`.
-
-Every push to `main` triggers a new deploy. The site is public to anyone with the URL, notes included.
-
-## Scripts
-
-| Command           | What it does                                      |
-| ----------------- | ------------------------------------------------- |
-| `npm run dev`     | Local dev server with editing                     |
-| `npm run build`   | Type-check and build to `dist/`                   |
-| `npm run preview` | Serve the production build (read-only)            |
-| `npm test`        | Unit tests for filtering, sorting and validation  |
