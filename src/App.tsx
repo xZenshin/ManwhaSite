@@ -57,10 +57,15 @@ export default function App() {
   return (
     <div className="page">
       <header className="masthead">
-        <h1 className="brand">
-          <span className="brand-hangul" aria-hidden>만화책장</span>
-          Manhwa shelf
-        </h1>
+        <div className="masthead-title">
+          <h1 className="brand">
+            <span className="brand-hangul" aria-hidden>만화책장</span>
+            Manhwa shelf
+          </h1>
+          <p className="tagline">
+            Personal manhwa list, since I got tired of sites shutting down all the time
+          </p>
+        </div>
         <div className="toolbar">
           <input
             type="search"
