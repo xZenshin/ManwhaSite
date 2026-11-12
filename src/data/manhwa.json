@@ -134,13 +134,13 @@
   {
     "id": "81d0f24a-2cea-45f6-8276-309b3a9d0c1f",
     "title": "Infinite Leveling: Murim",
-    "status": "reading",
-    "rating": 8,
-    "chaptersRead": 201,
-    "totalChapters": 278,
+    "status": "caught-up",
+    "rating": 9,
+    "chaptersRead": 250,
+    "totalChapters": 280,
     "coverUrl": "https://meo.comick.pictures/brBzRq.jpg",
-    "notes": "",
-    "updatedAt": "2026-10-28T14:19:18.375Z"
+    "notes": "Just finished season 2 with the Monk Elder defeated running away after having cooked him",
+    "updatedAt": "2026-11-01T15:19:14.827Z"
   },
   {
     "id": "ef1a9650-255d-4abf-af58-3546b5ad7b89",
@@ -354,12 +354,67 @@
   {
     "id": "e499337e-9181-41be-b188-a26350889fe9",
     "title": "Demon Devourer",
-    "status": "plan-to-read",
+    "status": "dropped",
     "rating": null,
-    "chaptersRead": 0,
+    "chaptersRead": 72,
     "totalChapters": 148,
     "coverUrl": "https://meo.comick.pictures/Q8gXL0.png",
     "notes": "",
-    "updatedAt": "2026-10-28T14:45:58.363Z"
+    "updatedAt": "2026-11-12T16:50:49.266Z"
+  },
+  {
+    "id": "8cf3a5ef-8460-4505-9fbd-a7675ef642ee",
+    "title": "Promise of an Orchid",
+    "status": "completed",
+    "rating": 9,
+    "chaptersRead": 105,
+    "totalChapters": 105,
+    "coverUrl": "https://meo.comick.pictures/3oqKz.png",
+    "notes": "",
+    "updatedAt": "2026-11-12T16:51:46.902Z"
+  },
+  {
+    "id": "9b2984cb-214b-4f9e-9a14-04c9328138b7",
+    "title": "Rental Hero",
+    "status": "completed",
+    "rating": 8,
+    "chaptersRead": 102,
+    "totalChapters": 102,
+    "coverUrl": "https://meo.comick.pictures/R8yKlK.jpg",
+    "notes": "",
+    "updatedAt": "2026-11-12T17:03:00.142Z"
+  },
+  {
+    "id": "82f8abe8-b00c-447c-abc3-4ec36454aea5",
+    "title": "Jungle Juice",
+    "status": "plan-to-read",
+    "rating": null,
+    "chaptersRead": 0,
+    "totalChapters": null,
+    "coverUrl": "https://meo.comick.pictures/z7dDyy.jpg",
+    "notes": "",
+    "updatedAt": "2026-11-12T17:03:36.976Z"
+  },
+  {
+    "id": "641204cf-41d8-494f-b15d-96eecae6d64a",
+    "title": "The Infinite Mage",
+    "status": "plan-to-read",
+    "rating": null,
+    "chaptersRead": 0,
+    "totalChapters": null,
+    "coverUrl": "https://meo.comick.pictures/l6lNgo.jpg",
+    "notes": "",
+    "updatedAt": "2026-11-12T17:03:59.344Z"
+  },
+  {
+    "id": "1d0f127c-26be-4848-869f-0a08ab29f563",
+    "title": "Log-In Murim",
+    "status": "plan-to-read",
+    "rating": null,
+    "chaptersRead": 0,
+    "totalChapters": null,
+    "coverUrl": "https://meo.comick.pictures/BLojl8.jpg",
+    "notes": "",
+    "updatedAt": "2026-11-12T17:05:27.153Z"
   }
 ]
