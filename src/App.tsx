@@ -63,7 +63,7 @@ export default function App() {
             Manhwa shelf
           </h1>
           <p className="tagline">
-            Personal manhwa list, since I got tired of sites shutting down all the time
+            Personal manhwa list, since I got tired of sites shutting down all the time. Have read a lot more, but cannot remember which ones :(
           </p>
         </div>
         <div className="toolbar">
