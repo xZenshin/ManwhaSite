@@ -278,12 +278,12 @@
     "id": "c92205f5-3ecf-48ab-b9b6-a37fb83a8942",
     "title": "Return of the Disaster-Level Hero",
     "status": "dropped",
-    "rating": 4,
+    "rating": 3,
     "chaptersRead": 10,
     "totalChapters": 194,
     "coverUrl": "https://meo.comick.pictures/ezNrZ5.jpg",
     "notes": "Insane slop",
-    "updatedAt": "2026-10-28T14:38:00.231Z"
+    "updatedAt": "2026-11-17T22:04:54.664Z"
   },
   {
     "id": "eacff639-4953-40d4-b098-9703432a3d6d",
@@ -387,13 +387,13 @@
   {
     "id": "82f8abe8-b00c-447c-abc3-4ec36454aea5",
     "title": "Jungle Juice",
-    "status": "plan-to-read",
+    "status": "reading",
     "rating": null,
-    "chaptersRead": 0,
+    "chaptersRead": 14,
     "totalChapters": null,
     "coverUrl": "https://meo.comick.pictures/z7dDyy.jpg",
     "notes": "",
-    "updatedAt": "2026-11-12T17:03:36.976Z"
+    "updatedAt": "2026-11-17T22:04:32.989Z"
   },
   {
     "id": "641204cf-41d8-494f-b15d-96eecae6d64a",
@@ -416,5 +416,93 @@
     "coverUrl": "https://meo.comick.pictures/BLojl8.jpg",
     "notes": "",
     "updatedAt": "2026-11-12T17:05:27.153Z"
+  },
+  {
+    "id": "d133072f-ce63-41c6-baff-ee7464bb728d",
+    "title": "Emblem Wars",
+    "status": "reading",
+    "rating": null,
+    "chaptersRead": 32,
+    "totalChapters": 40,
+    "coverUrl": "https://temp.compsci88.com/cover/normal/01KWVPWP0PTBXQW9R2X1HSR0WV.webp",
+    "notes": "",
+    "updatedAt": "2026-11-15T15:30:39.466Z"
+  },
+  {
+    "id": "1282049a-ea46-4ff2-ad35-8d7456e265a0",
+    "title": "Murim Psychopath",
+    "status": "caught-up",
+    "rating": 9,
+    "chaptersRead": 50,
+    "totalChapters": 50,
+    "coverUrl": "https://meo.comick.pictures/Jn4QMR.jpg",
+    "notes": "",
+    "updatedAt": "2026-11-17T22:04:05.212Z"
+  },
+  {
+    "id": "e28290d8-0d66-4498-9aee-23d547bbd762",
+    "title": "Kill the Villainess",
+    "status": "completed",
+    "rating": 9,
+    "chaptersRead": 102,
+    "totalChapters": 102,
+    "coverUrl": "https://meo.comick.pictures/Z8QY3p.jpg",
+    "notes": "",
+    "updatedAt": "2026-11-21T10:22:41.490Z"
+  },
+  {
+    "id": "c62f6b0b-356d-4e42-a4ec-6e8a570d337a",
+    "title": "My Boss's Special Request",
+    "status": "completed",
+    "rating": 8,
+    "chaptersRead": 110,
+    "totalChapters": 110,
+    "coverUrl": "https://meo.comick.pictures/jxXdaa.jpg",
+    "notes": "",
+    "updatedAt": "2026-11-21T10:39:03.460Z"
+  },
+  {
+    "id": "20235bfa-896b-44ed-b8fe-043435cbde1e",
+    "title": "I Shall Master This Family",
+    "status": "plan-to-read",
+    "rating": null,
+    "chaptersRead": 0,
+    "totalChapters": null,
+    "coverUrl": "https://meo.comick.pictures/kRlnyy.jpg",
+    "notes": "",
+    "updatedAt": "2026-11-21T12:58:32.953Z"
+  },
+  {
+    "id": "64019695-5aba-47fe-86b6-1ee5a3f6e0b7",
+    "title": "How to Win My Husband Over",
+    "status": "plan-to-read",
+    "rating": null,
+    "chaptersRead": 0,
+    "totalChapters": null,
+    "coverUrl": "https://meo.comick.pictures/W8El4q-m.jpg",
+    "notes": "",
+    "updatedAt": "2026-11-21T12:58:47.419Z"
+  },
+  {
+    "id": "79a4b916-24f1-436f-8b7a-68a4fc63c963",
+    "title": "Unrivaled Spear Demon",
+    "status": "plan-to-read",
+    "rating": null,
+    "chaptersRead": 0,
+    "totalChapters": null,
+    "coverUrl": "https://meo.comick.pictures/4kJpLB.jpg",
+    "notes": "",
+    "updatedAt": "2026-11-21T12:59:15.321Z"
+  },
+  {
+    "id": "4a501dd1-80fb-4e6c-a187-3bdd275d783e",
+    "title": "The Male Lead's Little Lion Daughter",
+    "status": "plan-to-read",
+    "rating": null,
+    "chaptersRead": 0,
+    "totalChapters": null,
+    "coverUrl": "https://meo.comick.pictures/R8Rkjb.jpg",
+    "notes": "",
+    "updatedAt": "2026-11-21T13:00:02.770Z"
   }
 ]

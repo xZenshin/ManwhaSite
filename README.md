@@ -30,7 +30,7 @@ The deployed site is read-only and shows no edit controls. You can also edit `ma
 
 ### Quick add from PowerShell
 
-[`scripts/add-manhwa.ps1`](scripts/add-manhwa.ps1) adds a manhwa without starting the dev server. It does four things:
+[`scripts/add-manwha-git.ps1`](scripts/add-manwha-git.ps1) adds a manhwa without starting the dev server. It does four things:
 
 1. Pulls the latest `main`.
 2. Adds the entry to `manhwa.json`.
@@ -40,20 +40,20 @@ The deployed site is read-only and shows no edit controls. You can also edit `ma
 Ask for each field:
 
 ```powershell
-.\scripts\add-manhwa.ps1
+.\scripts\add-manwha-git.ps1
 ```
 
 Or pass the fields directly:
 
 ```powershell
-.\scripts\add-manhwa.ps1 -Title "Solo Leveling" -Status completed -Chapters 179 -Total 179 -Rating 9 -Notes "Finished!"
+.\scripts\add-manwha-git.ps1 -Title "Solo Leveling" -Status completed -Chapters 179 -Total 179 -Rating 9 -Notes "Finished!"
 ```
 
 - `-Status` is one of `reading`, `caught-up`, `completed`, `plan-to-read` or `dropped`. It defaults to `reading`.
 - Use `-Chapters ?` if you don't remember the chapter. This also works in the site's edit form.
 - Leave out `-Total` for ongoing series, and `-Rating` for unrated ones.
-- Add `-NoPush` to only update the file.
+- Add `-NoPush` to only update the file, or run [`scripts/add-manwha.ps1`](scripts/add-manwha.ps1) instead. It takes the same fields, never pulls, commits or pushes, and works on any branch.
 
-The script must be run from `main`. It refuses titles that are already on the shelf. See `Get-Help .\scripts\add-manhwa.ps1 -Examples` for more.
+The script must be run from `main`. It refuses titles that are already on the shelf. See `Get-Help .\scripts\add-manwha-git.ps1 -Examples` for more.
 
 

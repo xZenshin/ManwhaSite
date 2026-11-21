@@ -1,5 +1,5 @@
 /**
- * Adds one manhwa to src/data/manhwa.json. Called by add-manhwa.ps1, which passes the
+ * Adds one manhwa to src/data/manhwa.json. Called by add-manwha-git.ps1, which passes the
  * entry as JSON in the MANHWA_ENTRY environment variable (avoids PowerShell's argument
  * quoting and encoding quirks). Runs directly with Node's built-in TypeScript support.
  */
@@ -16,7 +16,7 @@ function fail(message: string): never {
 }
 
 const raw = process.env.MANHWA_ENTRY;
-if (!raw) fail('MANHWA_ENTRY is not set. Run scripts/add-manhwa.ps1 instead of this file.');
+if (!raw) fail('MANHWA_ENTRY is not set. Run scripts/add-manwha-git.ps1 instead of this file.');
 
 let input: Partial<Manhwa>;
 try {

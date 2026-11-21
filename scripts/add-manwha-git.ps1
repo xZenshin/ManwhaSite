@@ -8,18 +8,18 @@
     to skip the questions. Fields you don't pass get their defaults.
 
 .EXAMPLE
-    .\scripts\add-manhwa.ps1
+    .\scripts\add-manwha-git.ps1
     Asks for each field, shows a summary, then adds, commits and pushes.
 
 .EXAMPLE
-    .\scripts\add-manhwa.ps1 -Title "Solo Leveling" -Status completed -Chapters 179 -Total 179 -Rating 9
+    .\scripts\add-manwha-git.ps1 -Title "Solo Leveling" -Status completed -Chapters 179 -Total 179 -Rating 9
 
 .EXAMPLE
-    .\scripts\add-manhwa.ps1 -Title "Tower of God" -Chapters ?
+    .\scripts\add-manwha-git.ps1 -Title "Tower of God" -Chapters ?
     Use ? for chapters read when you don't remember where you are.
 
 .EXAMPLE
-    .\scripts\add-manhwa.ps1 -Title "Nano Machine" -Status plan-to-read -NoPush
+    .\scripts\add-manwha-git.ps1 -Title "Nano Machine" -Status plan-to-read -NoPush
     Only updates manhwa.json; doesn't commit or push.
 #>
 [CmdletBinding()]
